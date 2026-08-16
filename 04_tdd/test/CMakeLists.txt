@@ -1,7 +1,7 @@
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(GTest REQUIRED)
+find_package(GTest REQUIRED COMPONENTS gmock)
 
 add_executable(test_solver test_solver.cpp)
 
