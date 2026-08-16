@@ -1,4 +1,6 @@
 #include <vector>
+#include <cmath>
+#include <stdexcept>
 #include "solver.hpp"
 
 std::vector<double> Solver::solve(const double& a, const double& b, const double& c) {
