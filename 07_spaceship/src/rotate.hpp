@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include "vector.hpp"
 #include "universal.hpp"
 

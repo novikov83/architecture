@@ -1,4 +1,5 @@
 #include "vector.hpp"
+#include <stdexcept>
 
 Vector::Vector(int dx, int dy): _dx{dx}, _dy{dy}
 {};

@@ -1,4 +1,5 @@
 #include "point.hpp"
+#include <stdexcept>
 
 Point::Point(int x, int y): _x{x}, _y{y}
 {};
