@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "move.hpp"
 
 // MovingAdapter
