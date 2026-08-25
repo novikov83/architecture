@@ -10,3 +10,4 @@ project(
 option(BUILD_TEST "Build tests" ON)
 
 add_subdirectory(04_tdd)
+add_subdirectory(07_spaceship)
