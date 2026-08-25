@@ -9,5 +9,9 @@ project(
 
 option(BUILD_TEST "Build tests" ON)
 
+if(BUILD_TEST)
+    enable_testing()
+endif()
+
 add_subdirectory(04_tdd)
 add_subdirectory(07_spaceship)
