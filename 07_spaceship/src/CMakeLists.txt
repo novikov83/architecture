@@ -6,6 +6,9 @@ add_library(spaceship SHARED
     move.cpp move.hpp
     rotate.cpp rotate.hpp
     spaceship.hpp
+    command.hpp
+    exception.hpp
+    handler.hpp
 )
 
 target_compile_features(spaceship PUBLIC cxx_std_20)
