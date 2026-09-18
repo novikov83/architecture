@@ -8,6 +8,7 @@ set(TESTS
     test_vector
     test_move
     test_rotate
+    test_command
 )
 
 include(CTest)
