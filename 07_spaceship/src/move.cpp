@@ -23,11 +23,11 @@ Vector MovingAdapter::getVelocity() const
 MovingAdapter::~MovingAdapter()
 {};
 
-// Move
-Move::Move(IMoving& obj): _obj{obj}
+// MoveCommand
+MoveCommand::MoveCommand(IMoving& obj): _obj{obj}
 {};
 
-void Move::Execute()
+void MoveCommand::Execute()
 {
     Vector v = _obj.getVelocity();
     if (v.getDx() == 0 && v.getDy() == 0) {
