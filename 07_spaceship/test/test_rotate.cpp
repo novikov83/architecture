@@ -14,7 +14,7 @@ class RotateTest: public ::testing::Test {
 protected:
     SpaceShip           spaceship;
     RotatingAdapter     adapter{spaceship};
-    Rotate              rotate{adapter};
+    RotateCommand              rotate{adapter};
 };
 TEST_F(RotateTest, Rotate45Object)
 {

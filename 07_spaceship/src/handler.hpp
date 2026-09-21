@@ -50,19 +50,19 @@ public:
     }
 
     // непосредтвенно обработчик исключения
-    void Handle(std::unique_ptr<ICommand> command, const IException& exception, std::queue<std::unique_ptr<ICommand>>& queue) {
+    std::unique_ptr<ICommand> Handle(std::unique_ptr<ICommand> command, const IException& exception) {
         if (!command) {
-            return;
+            return nullptr;
         }
         // std::cout << "Handle: command '" << GetType(*command).name() << "', exception '" << typeid(exception).name() << "'" << std::endl;
         auto it = _map.find(Key(GetType(*command), typeid(exception)));
         if (it == _map.end()) {
-            return;
+            return nullptr;
         }
         if (it->second) {
-            auto new_command = it->second(std::move(command));
-            queue.push(std::move(new_command));
+            return it->second(std::move(command));
         }
+        return nullptr;
     };
 };
 
@@ -131,7 +131,10 @@ private:
                 command->Execute();
             }
             catch (const IException& ex) {
-                _exception_handler.Handle(std::move(command), ex, _queue);
+                auto new_command = _exception_handler.Handle(std::move(command), ex);
+                if (new_command) {
+                    _queue.push(std::move(new_command));
+                }
             }
         }
     };

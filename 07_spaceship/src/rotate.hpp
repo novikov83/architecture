@@ -2,6 +2,7 @@
 #include <cmath>
 #include "vector.hpp"
 #include "universal.hpp"
+#include "command.hpp"
 
 // интерфейс для объекта, который в данный момент поворачивается
 class IRotating {
@@ -26,9 +27,10 @@ public:
 };
 
 // класс осуществляющий поворот
-class Rotate {
+class RotateCommand: public ICommand {
     IRotating& _obj;
 public:
-    Rotate(IRotating& obj);
-    void Execute();
+    RotateCommand(IRotating& obj);
+    void Execute() override;
+    ~RotateCommand() override = default;
 };

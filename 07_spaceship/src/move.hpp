@@ -2,6 +2,7 @@
 #include "point.hpp"
 #include "vector.hpp"
 #include "universal.hpp"
+#include "command.hpp"
 
 // интерфейс для объекта, который в данный момент движется прямолинейно
 class IMoving {
@@ -27,10 +28,11 @@ public:
 };
 
 // класс выполняющий перемещение
-class Move {
+class MoveCommand: public ICommand {
     IMoving& _obj;
 public:
-    Move(IMoving& obj);
+    MoveCommand(IMoving& obj);
 
-    void Execute();
+    void Execute() override;
+    ~MoveCommand() override = default;
 };

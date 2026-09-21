@@ -16,9 +16,9 @@
 
 class MoveTest: public ::testing::Test {
 protected:
-    SpaceShip      spaceship;
+    SpaceShip       spaceship;
     MovingAdapter   adapter{spaceship};
-    Move            move{adapter};
+    MoveCommand     move{adapter};
 };
 TEST_F(MoveTest, MoveObject)
 {

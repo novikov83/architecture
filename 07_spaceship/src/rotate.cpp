@@ -20,11 +20,11 @@ int RotatingAdapter::getAngleVelocity() const
     return _obj.getProperty<int>("AngleVelocity");
 };
 
-// Rotate
-Rotate::Rotate(IRotating& obj): _obj(obj)
+// RotateCommand
+RotateCommand::RotateCommand(IRotating& obj): _obj(obj)
 {};
 
-void Rotate::Execute()
+void RotateCommand::Execute()
 {
     Vector v = _obj.getVelocity();
     double angle = _obj.getAngleVelocity() * std::numbers::pi / 180;
