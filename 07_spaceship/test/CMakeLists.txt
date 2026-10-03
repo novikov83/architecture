@@ -9,6 +9,7 @@ set(TESTS
     test_move
     test_rotate
     test_command
+    test_fuel
 )
 
 include(CTest)
