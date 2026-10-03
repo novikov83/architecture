@@ -22,10 +22,10 @@ TEST_F(RotateTest, Rotate45Object)
     // и поворачивающегося на 45 градусов, 
     // вектор меняется на (0, 14)
 
-    spaceship.setProperty<Vector>("Velocity", {10, 10});
-    spaceship.setProperty<int>("AngleVelocity", 45);
+    spaceship.setProperty<Vector>("Direction", {10, 10});
+    spaceship.setProperty<int>("AngleDirection", 45);
     rotate.Execute();
-    EXPECT_EQ(spaceship.getProperty<Vector>("Velocity"), Vector(0, 14));
+    EXPECT_EQ(spaceship.getProperty<Vector>("Direction"), Vector(0, 14));
 }
 TEST_F(RotateTest, Rotate90Object)
 {
@@ -33,10 +33,10 @@ TEST_F(RotateTest, Rotate90Object)
     // и поворачивающегося на 90 градусов, 
     // вектор меняется на (-10, 10)
 
-    spaceship.setProperty<Vector>("Velocity", {10, 10});
-    spaceship.setProperty<int>("AngleVelocity", 90);
+    spaceship.setProperty<Vector>("Direction", {10, 10});
+    spaceship.setProperty<int>("AngleDirection", 90);
     rotate.Execute();
-    EXPECT_EQ(spaceship.getProperty<Vector>("Velocity"), Vector(-10, 10));
+    EXPECT_EQ(spaceship.getProperty<Vector>("Direction"), Vector(-10, 10));
 }
 TEST_F(RotateTest, Rotate360Object)
 {
@@ -44,11 +44,11 @@ TEST_F(RotateTest, Rotate360Object)
     // и поворачивающегося на 360 градусов, 
     // вектор меняется на (10, 10)
 
-    spaceship.setProperty<Vector>("Velocity", {10, 10});
-    spaceship.setProperty<int>("AngleVelocity", 360);
+    spaceship.setProperty<Vector>("Direction", {10, 10});
+    spaceship.setProperty<int>("AngleDirection", 360);
     rotate.Execute();
     // !!! ошибка округления. должно быть (10, 10)
-    EXPECT_EQ(spaceship.getProperty<Vector>("Velocity"), Vector(10, 9));
+    EXPECT_EQ(spaceship.getProperty<Vector>("Direction"), Vector(10, 9));
 }
 TEST_F(RotateTest, Rotate405Object)
 {
@@ -56,29 +56,29 @@ TEST_F(RotateTest, Rotate405Object)
     // и поворачивающегося на 360+45=405 градусов, 
     // вектор меняется на (0, 14)
 
-    spaceship.setProperty<Vector>("Velocity", {10, 10});
-    spaceship.setProperty<int>("AngleVelocity", 405);
+    spaceship.setProperty<Vector>("Direction", {10, 10});
+    spaceship.setProperty<int>("AngleDirection", 405);
     rotate.Execute();
-    EXPECT_EQ(spaceship.getProperty<Vector>("Velocity"), Vector(0, 14));
+    EXPECT_EQ(spaceship.getProperty<Vector>("Direction"), Vector(0, 14));
 }
-TEST_F(RotateTest, ThrowVelocity)
+TEST_F(RotateTest, ThrowDirection)
 {
     // Попытка сдвинуть объект, 
     // у которого невозможно прочитать скорость поворота, 
     // приводит к ошибке
-    // spaceship.setProperty<Vector>("Velocity", {1, 1});
+    // spaceship.setProperty<Vector>("Direction", {1, 1});
 
-    spaceship.setProperty<int>("AngleVelocity", 45);
+    spaceship.setProperty<int>("AngleDirection", 45);
     EXPECT_THROW(rotate.Execute(), std::logic_error);
 }
-TEST_F(RotateTest, ThrowAngleVelocity)
+TEST_F(RotateTest, ThrowAngleDirection)
 {
     // Попытка сдвинуть объект, 
     // у которого невозможно прочитать вектор скорости, 
     // приводит к ошибке
 
-    spaceship.setProperty<Vector>("Velocity", {1, 1});
-    // spaceship.setProperty<int>("AngleVelocity", 45);
+    spaceship.setProperty<Vector>("Direction", {1, 1});
+    // spaceship.setProperty<int>("AngleDirection", 45);
     EXPECT_THROW(rotate.Execute(), std::logic_error);
 }
 TEST_F(RotateTest, Throw)
@@ -88,7 +88,7 @@ TEST_F(RotateTest, Throw)
     // и вектор скорости и скорость поворота
     // приводит к ошибке
 
-    // spaceship.setProperty<Vector>("Velocity", {1, 1});
-    // spaceship.setProperty<int>("AngleVelocity", 45);
+    // spaceship.setProperty<Vector>("Direction", {1, 1});
+    // spaceship.setProperty<int>("AngleDirection", 45);
     EXPECT_THROW(rotate.Execute(), std::logic_error);
 }

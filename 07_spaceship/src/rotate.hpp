@@ -7,9 +7,9 @@
 // интерфейс для объекта, который в данный момент поворачивается
 class IRotating {
 public:
-    virtual Vector  getVelocity() const = 0;
-    virtual void    setVelocity(const Vector& v) = 0;
-    virtual int     getAngleVelocity() const = 0;
+    virtual Vector  getDirection() const = 0;
+    virtual void    setDirection(const Vector& v) = 0;
+    virtual int     getAngleDirection() const = 0;
 
     virtual ~IRotating() = default;
 };
@@ -19,9 +19,9 @@ class RotatingAdapter: public IRotating {
     UniversalItem& _obj;
 public:
     RotatingAdapter(UniversalItem& obj);
-    void    setVelocity(const Vector& newVelocity) override;
-    Vector  getVelocity() const override;
-    int     getAngleVelocity() const override;
+    void    setDirection(const Vector& newVelocity) override;
+    Vector  getDirection() const override;
+    int     getAngleDirection() const override;
 
     ~RotatingAdapter() override = default;
 };
