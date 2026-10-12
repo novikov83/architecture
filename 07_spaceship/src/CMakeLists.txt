@@ -9,6 +9,7 @@ add_library(spaceship SHARED
     command.hpp
     exception.hpp
     handler.hpp
+    ioc.hpp
 )
 
 target_compile_features(spaceship PUBLIC cxx_std_20)
