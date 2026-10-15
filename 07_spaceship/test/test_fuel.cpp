@@ -116,3 +116,24 @@ TEST_F(CheckBurnFuelTest, CheckMoveBurnFuelOk)
     EXPECT_EQ(spaceship.getProperty<int>("Fuel"), 0);
     EXPECT_EQ(spaceship.getProperty<Point>("Location"), Point(3, 1));
 }
+
+TEST_F(CheckBurnFuelTest, CheckMoveBurnFuelErr)
+{
+    // проверка, движение и сжигание топлива, когда топлива не хватает 
+    spaceship.setProperty<Point>("Location", {1, 1});
+    spaceship.setProperty<Vector>("Velocity", {2, 0});
+    spaceship.setProperty<int>("Fuel", 10);
+    spaceship.setProperty<int>("FuelVelocity", 11);
+
+    std::vector<std::unique_ptr<ICommand>> commands;
+    commands.emplace_back(std::make_unique<CheckFuelCommand>(adapter));
+    MovingAdapter    move_adapter{spaceship};
+    commands.emplace_back(std::make_unique<MoveCommand>(move_adapter));
+    commands.emplace_back(std::make_unique<BurnFuelCommand>(adapter));
+
+    MacroCommand macro_command{std::move(commands)};
+
+    EXPECT_THROW(macro_command.Execute(), CommandException);
+    EXPECT_EQ(spaceship.getProperty<int>("Fuel"), 10);
+    EXPECT_EQ(spaceship.getProperty<Point>("Location"), Point(1, 1));
+}
