@@ -64,7 +64,7 @@ TEST_F(RotateTest, Rotate405Object)
 TEST_F(RotateTest, ThrowDirection)
 {
     // Попытка сдвинуть объект, 
-    // у которого невозможно прочитать скорость поворота, 
+    // у которого невозможно прочитать вектор скорости,
     // приводит к ошибке
     // spaceship.setProperty<Vector>("Direction", {1, 1});
 
@@ -74,7 +74,7 @@ TEST_F(RotateTest, ThrowDirection)
 TEST_F(RotateTest, ThrowAngleDirection)
 {
     // Попытка сдвинуть объект, 
-    // у которого невозможно прочитать вектор скорости, 
+    // у которого невозможно прочитать скорость поворота,
     // приводит к ошибке
 
     spaceship.setProperty<Vector>("Direction", {1, 1});
