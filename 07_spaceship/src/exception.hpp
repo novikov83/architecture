@@ -17,3 +17,10 @@ public:
     using IException::IException;
     ~SendException() override = default;
 };
+
+// исключение для комманд
+class CommandException: public IException {
+public:
+    using IException::IException;
+    ~CommandException() override = default;
+};
