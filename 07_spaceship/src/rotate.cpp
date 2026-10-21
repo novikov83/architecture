@@ -5,19 +5,19 @@
 RotatingAdapter::RotatingAdapter(UniversalItem& obj): _obj(obj)
 {};
 
-void RotatingAdapter::setVelocity(const Vector& newVelocity)
+void RotatingAdapter::setDirection(const Vector& newVelocity)
 {
-    _obj.setProperty("Velocity", newVelocity);
+    _obj.setProperty("Direction", newVelocity);
 };
 
-Vector RotatingAdapter::getVelocity() const
+Vector RotatingAdapter::getDirection() const
 {
-    return _obj.getProperty<Vector>("Velocity");
+    return _obj.getProperty<Vector>("Direction");
 };
 
-int RotatingAdapter::getAngleVelocity() const
+int RotatingAdapter::getAngleDirection() const
 {
-    return _obj.getProperty<int>("AngleVelocity");
+    return _obj.getProperty<int>("AngleDirection");
 };
 
 // RotateCommand
@@ -26,9 +26,9 @@ RotateCommand::RotateCommand(IRotating& obj): _obj(obj)
 
 void RotateCommand::Execute()
 {
-    Vector v = _obj.getVelocity();
-    double angle = _obj.getAngleVelocity() * std::numbers::pi / 180;
+    Vector v = _obj.getDirection();
+    double angle = _obj.getAngleDirection() * std::numbers::pi / 180;
     int new_dx = (double)v.getDx() * std::cos(angle) - (double)v.getDy() * std::sin(angle);
     int new_dy = (double)v.getDy() * std::sin(angle) + (double)v.getDy() * std::cos(angle);
-    _obj.setVelocity({new_dx, new_dy});
+    _obj.setDirection({new_dx, new_dy});
 };

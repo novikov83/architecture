@@ -9,6 +9,9 @@ add_library(spaceship SHARED
     command.hpp
     exception.hpp
     handler.hpp
+    fuel.hpp
+    macro.hpp
+    velocity.cpp velocity.hpp
     ioc.hpp
 )
 
