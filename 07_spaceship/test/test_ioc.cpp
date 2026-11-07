@@ -142,7 +142,7 @@ TEST_F(IoCTest, IoC_SetScope_1)
 }
 
 // Проверка получения текущего Скоупа
-TEST_F(IoCTest, GetScope_1)
+TEST_F(IoCTest, IoC_GetScope_1)
 {
     // Регистрация Фабрики по получению текущего Скоупа из IoC
     EXPECT_NO_THROW(_ioc.resolve<ICommand>("IoC.Register", "IoC.GetScope", [](IoC& ioc){
