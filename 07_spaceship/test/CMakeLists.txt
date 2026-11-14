@@ -11,6 +11,7 @@ set(TESTS
     test_command
     test_fuel
     test_velocity
+    test_ioc
 )
 
 include(CTest)

@@ -12,6 +12,7 @@ add_library(spaceship SHARED
     fuel.hpp
     macro.hpp
     velocity.cpp velocity.hpp
+    ioc.hpp
 )
 
 target_compile_features(spaceship PUBLIC cxx_std_20)
