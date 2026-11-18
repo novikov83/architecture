@@ -38,10 +38,11 @@ jobs:
             libgtest-dev \
             libgmock-dev
 
-      - name: Check LLVM installation
-        run: |
-          llvm-config --version
-          clang --version
+      # - name: Check LLVM installation
+      #   run: |
+      #     llvm-config --version
+      #     clang --version
+
       - name: Configure
         run: |
           # cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
