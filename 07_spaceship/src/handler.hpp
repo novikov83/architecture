@@ -3,6 +3,7 @@
 #include <queue>
 #include <unordered_map>
 #include <typeindex>
+#include <thread>
 
 #include "exception.hpp"
 #include "command.hpp"

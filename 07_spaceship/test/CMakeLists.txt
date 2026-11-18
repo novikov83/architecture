@@ -12,6 +12,7 @@ set(TESTS
     test_fuel
     test_velocity
     test_ioc
+    test_adapter
 )
 
 include(CTest)
@@ -26,4 +27,14 @@ foreach(TEST ${TESTS})
 
     gtest_discover_tests(${TEST})
 endforeach()
+
+message(STATUS "CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "BINARY_DIR: ${CMAKE_BINARY_DIR}")
+message(STATUS "GENERATED_DIR: ${GENERATED_DIR}")
+
+target_include_directories(test_adapter PRIVATE
+    "${GENERATED_DIR}"
+)
+
+add_dependencies(test_adapter generate-adapters)
 

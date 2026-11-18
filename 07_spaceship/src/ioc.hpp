@@ -87,7 +87,8 @@ public:
     // По ключу и любому количеству аргументов, возвращает
     // std::shared_ptr на объект нужного типа.
     template<typename T, typename ... ARG>
-    std::shared_ptr<T> resolve(const std::string& key, ARG&& ... a) {
+    // std::shared_ptr<T> resolve(const std::string& key, ARG&& ... a) {
+    T resolve(const std::string& key, ARG&& ... a) {
 
         // Преобразование аргументов resolve() в массив
         // аргументов типа std::any.
@@ -113,7 +114,8 @@ public:
         }
 
         try {
-            return std::any_cast<std::shared_ptr<T>>(std::move(result));
+            // return std::any_cast<std::shared_ptr<T>>(std::move(result));
+            return std::any_cast<T>(std::move(result));
         }
         catch (const std::bad_any_cast&) {
             throw std::runtime_error(
