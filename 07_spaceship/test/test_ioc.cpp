@@ -63,26 +63,26 @@ protected:
 TEST_F(IoCTest, IoC_Ok_1)
 {
     // Регистрация Фабрики по созданию объекта ServiceA
-    _ioc.resolve<ICommand>("IoC.Register", "ServiceA", [](IoC& ioc){
+    _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "ServiceA", [](IoC& ioc){
         return std::make_shared<ServiceA>();
     })->Execute();
 
     // Создание объекта ServiceA
-    auto service_a = _ioc.resolve<ServiceA>("ServiceA");
+    auto service_a = _ioc.resolve<std::shared_ptr<ServiceA>>("ServiceA");
     EXPECT_EQ(service_a->name(), "This is ServiceA");
 
     // Регистрация Фабрики по созданию объекта Log
-    _ioc.resolve<ICommand>("IoC.Register", "Log", [](IoC& ioc){
+    _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "Log", [](IoC& ioc){
         return std::shared_ptr<ILog>(std::make_shared<Log>());
     })->Execute();
 
     // Регистрация Фабрики по созданию объекта ServiceB
-    _ioc.resolve<ICommand>("IoC.Register", "ServiceB", [](IoC& ioc){
-        return std::make_shared<ServiceB>(ioc.resolve<ILog>("Log"));
+    _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "ServiceB", [](IoC& ioc){
+        return std::make_shared<ServiceB>(ioc.resolve<std::shared_ptr<ILog>>("Log"));
     })->Execute();
 
     // Создание объекта ServiceB, который требует объект Log
-    auto service_b = _ioc.resolve<ServiceB>("ServiceB");
+    auto service_b = _ioc.resolve<std::shared_ptr<ServiceB>>("ServiceB");
     EXPECT_EQ(service_b->name(), "This is ServiceB");
 }
 
@@ -94,7 +94,7 @@ TEST_F(IoCTest, IoC_NewScope_1)
     EXPECT_EQ(_root_scope->_factory.contains("IoC.Register"), true);
 
     // Регистрация Фабрики по созданию Скоупа
-    _ioc.resolve<ICommand>("IoC.Register", "IoC.NewScope", [](IoC& ioc, const Arg& arg){
+    _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "IoC.NewScope", [](IoC& ioc, const Arg& arg){
         return std::make_shared<Scope>(std::any_cast<std::shared_ptr<Scope>>(arg[0]));
     })->Execute();
     // Проверка, что Фабрика зарегистрировалась
@@ -102,14 +102,14 @@ TEST_F(IoCTest, IoC_NewScope_1)
     EXPECT_EQ(_root_scope->_factory.contains("IoC.NewScope"), true);
 
     // Создание обекта Скоуп
-    auto scope_1 = _ioc.resolve<Scope>("IoC.NewScope", _root_scope);
+    auto scope_1 = _ioc.resolve<std::shared_ptr<Scope>>("IoC.NewScope", _root_scope);
     // Проверка, что Скоуп-родитель привязан
     EXPECT_EQ(scope_1->_parent, _root_scope);
     // Проверка, что в новом Скоупе нет зарегистрированных Фабрик
     EXPECT_EQ(scope_1->_factory.size(), 0);
 
     // Создание второго объекта Скоуп
-    auto scope_2 = _ioc.resolve<Scope>("IoC.NewScope", _root_scope);
+    auto scope_2 = _ioc.resolve<std::shared_ptr<Scope>>("IoC.NewScope", _root_scope);
     // Проверка, что Скоуп-родитель привязан
     EXPECT_EQ(scope_2->_parent, _root_scope);
     // Проверка, что в новом Скоупе нет зарегистрированных Фабрик
@@ -119,23 +119,23 @@ TEST_F(IoCTest, IoC_NewScope_1)
 // Проверка по установке нового Скоупа в IoC
 TEST_F(IoCTest, IoC_SetScope_1)
 {
-    // Регистрация Фабрикb по созданию Скоупа
-    _ioc.resolve<ICommand>("IoC.Register", "IoC.NewScope", [](IoC& ioc, const Arg& arg){
+    // Регистрация Фабрики по созданию Скоупа
+    _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "IoC.NewScope", [](IoC& ioc, const Arg& arg){
         if (arg.size() != 1) {throw std::invalid_argument("IoC.NewScope expects (std::shared_ptr<Scope>)");}
         return std::make_shared<Scope>(std::any_cast<std::shared_ptr<Scope>>(arg[0]));
     })->Execute();
 
     // Создание объектов Скоуп
-    auto scope_1 = _ioc.resolve<Scope>("IoC.NewScope", _root_scope);
+    auto scope_1 = _ioc.resolve<std::shared_ptr<Scope>>("IoC.NewScope", _root_scope);
 
     // Регистрация Фабрикb по установке Скоупа
-    _ioc.resolve<ICommand>("IoC.Register", "IoC.SetScope", [](IoC& ioc, const Arg& arg){
+    _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "IoC.SetScope", [](IoC& ioc, const Arg& arg){
         if (arg.size() != 1) {throw std::invalid_argument("IoC.SetScope expects (std::shared_ptr<Scope>)");}
         return std::shared_ptr<ICommand>(std::make_shared<IoCSetScopeCommand>(ioc, std::any_cast<std::shared_ptr<Scope>>(arg[0])));
     })->Execute();
 
     // Установка нового Скоупа
-    _ioc.resolve<ICommand>("IoC.SetScope", scope_1)->Execute();
+    _ioc.resolve<std::shared_ptr<ICommand>>("IoC.SetScope", scope_1)->Execute();
     // Проверка что Скоуп поменялся
     EXPECT_EQ(_ioc._scope->_factory.size(), 0);
     EXPECT_EQ(_ioc._scope->_parent, _root_scope);
@@ -145,12 +145,12 @@ TEST_F(IoCTest, IoC_SetScope_1)
 TEST_F(IoCTest, IoC_GetScope_1)
 {
     // Регистрация Фабрики по получению текущего Скоупа из IoC
-    EXPECT_NO_THROW(_ioc.resolve<ICommand>("IoC.Register", "IoC.GetScope", [](IoC& ioc){
+    EXPECT_NO_THROW(_ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "IoC.GetScope", [](IoC& ioc){
         return ioc._scope;
     })->Execute());
 
     // Получение текущего Скоупа
-    auto scope = _ioc.resolve<Scope>("IoC.GetScope");
+    auto scope = _ioc.resolve<std::shared_ptr<Scope>>("IoC.GetScope");
     EXPECT_EQ(scope->_parent, nullptr);
     EXPECT_EQ(scope->_factory.size(), 2);
     EXPECT_EQ(scope->_factory.contains("IoC.Register"), true);
@@ -171,16 +171,16 @@ protected:
 
 protected:
     void SetUp() override {
-        EXPECT_NO_THROW(_ioc.resolve<ICommand>("IoC.Register", "IoC.NewScope", [](IoC& ioc, const Arg& arg){
+        EXPECT_NO_THROW(_ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "IoC.NewScope", [](IoC& ioc, const Arg& arg){
             return std::make_shared<Scope>(std::any_cast<std::shared_ptr<Scope>>(arg[0]));
         })->Execute());
 
-        EXPECT_NO_THROW(_ioc.resolve<ICommand>("IoC.Register", "IoC.SetScope", [](IoC& ioc, const Arg& arg){
+        EXPECT_NO_THROW(_ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "IoC.SetScope", [](IoC& ioc, const Arg& arg){
             if (arg.size() != 1) {throw std::invalid_argument("IoC.SetScope expects (std::shared_ptr<Scope>)");}
             return std::shared_ptr<ICommand>(std::make_shared<IoCSetScopeCommand>(ioc, std::any_cast<std::shared_ptr<Scope>>(arg[0])));
         })->Execute());
 
-        EXPECT_NO_THROW(_ioc.resolve<ICommand>("IoC.Register", "IoC.GetScope", [](IoC& ioc){
+        EXPECT_NO_THROW(_ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "IoC.GetScope", [](IoC& ioc){
             return ioc._scope;
         })->Execute());
     };
@@ -195,15 +195,15 @@ TEST_F(IoCTestThread, Test_1)
 
     std::thread t1([&](){
         IoC     _ioc{_root_scope};
-        scope = _ioc.resolve<Scope>("IoC.NewScope", _root_scope);
-        _ioc.resolve<ICommand>("IoC.SetScope", scope)->Execute();
+        scope = _ioc.resolve<std::shared_ptr<Scope>>("IoC.NewScope", _root_scope);
+        _ioc.resolve<std::shared_ptr<ICommand>>("IoC.SetScope", scope)->Execute();
 
-        _ioc.resolve<ICommand>("IoC.Register", "ServiceA", [](IoC& ioc){
+        _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "ServiceA", [](IoC& ioc){
             return std::make_shared<ServiceA>();
         })->Execute();
 
         for (auto i : {1, 2, 3, 4, 5, 6, 7, 8, 9}) {
-            auto service_a = _ioc.resolve<ServiceA>("ServiceA");
+            auto service_a = _ioc.resolve<std::shared_ptr<ServiceA>>("ServiceA");
             EXPECT_EQ(service_a->name(), "This is ServiceA");
             std::this_thread::sleep_for(1ms);
         }
@@ -211,19 +211,19 @@ TEST_F(IoCTestThread, Test_1)
 
     std::thread t2([&](){
         IoC     _ioc{_root_scope};
-        scope = _ioc.resolve<Scope>("IoC.NewScope", _root_scope);
-        _ioc.resolve<ICommand>("IoC.SetScope", scope)->Execute();
+        scope = _ioc.resolve<std::shared_ptr<Scope>>("IoC.NewScope", _root_scope);
+        _ioc.resolve<std::shared_ptr<ICommand>>("IoC.SetScope", scope)->Execute();
 
-        _ioc.resolve<ICommand>("IoC.Register", "Log", [](IoC& ioc){
+        _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "Log", [](IoC& ioc){
             return std::shared_ptr<ILog>(std::make_shared<Log>());
         })->Execute();
 
-        _ioc.resolve<ICommand>("IoC.Register", "ServiceB", [](IoC& ioc){
-            return std::make_shared<ServiceB>(ioc.resolve<ILog>("Log"));
+        _ioc.resolve<std::shared_ptr<ICommand>>("IoC.Register", "ServiceB", [](IoC& ioc){
+            return std::make_shared<ServiceB>(ioc.resolve<std::shared_ptr<ILog>>("Log"));
         })->Execute();
 
         for (auto i : {1, 2, 3, 4, 5, 6, 7, 8, 9}) {
-            auto service_b = _ioc.resolve<ServiceB>("ServiceB");
+            auto service_b = _ioc.resolve<std::shared_ptr<ServiceB>>("ServiceB");
             EXPECT_EQ(service_b->name(), "This is ServiceB");
             std::this_thread::sleep_for(1ms);
         }

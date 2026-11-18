@@ -18,14 +18,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y cmake ninja-build g++ libgtest-dev libgmock-dev
+      #     sudo apt install -y llvm-dev libclang-dev libclang-cpp-dev
+
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake ninja-build g++ libgtest-dev libgmock-dev
+          sudo apt-get install -y \
+            cmake \
+            ninja-build \
+            g++ \
+            llvm-22-dev \
+            clang-22 \
+            libclang-22-dev \
+            libclang-cpp22-dev \
+            libgtest-dev \
+            libgmock-dev
+
+      # - name: Check LLVM installation
+      #   run: |
+      #     llvm-config --version
+      #     clang --version
 
       - name: Configure
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          # cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DLLVM_DIR=/usr/lib/llvm-22/lib/cmake/llvm \
+              -DClang_DIR=/usr/lib/llvm-22/lib/cmake/clang
 
       - name: Build
         run: |

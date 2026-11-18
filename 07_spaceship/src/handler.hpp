@@ -3,6 +3,13 @@
 #include <queue>
 #include <unordered_map>
 #include <typeindex>
+#include <thread>
+
+#include <functional>
+#include <condition_variable>
+#include <mutex>
+#include <memory>
+#include <unordered_map>
 
 #include "exception.hpp"
 #include "command.hpp"

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 // интерфейс для исключения
 class IException {
     std::string _str;
