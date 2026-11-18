@@ -33,7 +33,9 @@ if(APPLE)
         -Wno-pragma-once-outside-header
     )
 elseif(UNIX)
-    set(CLANG_PLATFORM_ARGS)
+    set(CLANG_PLATFORM_ARGS
+        -Wno-pragma-once-outside-header
+    )
 endif()
 
 message(STATUS "LLVM version: ${LLVM_PACKAGE_VERSION}")
