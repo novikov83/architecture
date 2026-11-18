@@ -22,6 +22,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build g++ libgtest-dev libgmock-dev
+          sudo apt install -y llvm-dev libclang-dev libclang-cpp-dev
 
       - name: Configure
         run: |
